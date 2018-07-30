@@ -1,0 +1,1104 @@
+swagger: "2.0"
+info:
+  description: >-
+    This is a sample server Login server.  Sample api documentation for system
+    login.The API login is the simplest method of integration for most
+    applications. It will allow the user to provide their username and
+    password.  
+  version: 1.0.0
+  title: JISORT API
+  termsOfService: 'https://my.jisort.com/app/'
+  contact:
+    email: beatrice@jisort.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: my.jisort.com
+tags:
+  - name: API
+    description: Everything about your API's
+    externalDocs:
+      description: Find out more
+      url: 'https://my.jisort.com/app'
+  - name: user
+    description: Operations about user
+    externalDocs:
+      description: Find out more about our store
+      url: 'http://my.jisort.com'
+schemes:
+  - https
+  - http
+paths:
+  /registration/login/:
+    
+    post:
+      tags:
+        - user
+      summary: This is an area where users of the system are logged in. 
+      description: '
+      The login session expires after 36000 
+       <h3 style="font-size:120%;"> HTTP POST Parameters</h3> <hr><br>
+      Parameters <span style="display:inline-block; width: 25%;"></span>      Description<hr>
+      Username  <span style="display:inline-block; width: 30%;"></span>
+          set to the username used to login.<br> 
+      Password <span style="display:inline-block; width: 31%;"></span>            set to the password is used for login.<br>
+      Grant type <span style="display:inline-block; width: 30%;"></span>         set to the value password.<br>
+      Client_id  <span style="display:inline-block; width: 32%;"></span>        set to the client identifier.<br>
+      Client secret   <span style="display:inline-block; width: 30%;"></span>    set to the client secret
+      
+      
+      '
+      operationId: updatePetWithForm
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: username
+          in: formData
+          description: Field to add username
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: Field to add password
+          required: true
+          type: string
+        - name: grant_type
+          in: formData
+          description: With the value password
+          required: false
+          type: string
+        - name: client_id
+          in: formData
+          description: with the the client’s ID
+          required: false
+          type: string
+        - name: client_secret
+          in: formData
+          description: with the client’s secret
+          required: false
+          type: string
+     
+    
+  /messenger/outbox/:
+    post:
+      tags:
+        - messenger
+      summary: Sends a Message
+      description: 'The OAuth access token expires after a  , after which, you will need to generate another access token. On a production app, use a base64 library of the programming language you are using to build your app to get the Basic Auth string that you will then use to invoke our OAuth API to get an access token.<br>
+   <h3 style="font-size:120%;">HTTP Header Parameters</h3> <hr>.<br>
+   With an OAuth 2.0 Access Token, an application can now invoke our API by including the access token in the HTTP header. Our APIs currently only supports application/json content type.<br>
+    Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr>  
+    Authorization <span style="display:inline-block; width: 25%;"></span> Set to  Only bearer < access token>.<br>
+    Content-Type <span style="display:inline-block; width: 25%;"></span>  Only application/json
+  content type is supported.<br>
+   <h3 style="font-size:120%;"> HTTP POST Parameters</h3> <hr>.<br>
+
+   Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr> 
+   Recipient <span style="display:inline-block; width: 30%;"></span> Set to the recipients contact<br>   
+  Message <span style="display:inline-block; width: 31%;"></span>Set to the message being sent<br><span style="display:block; height: 5%;"></span>
+<p style="color:#FF0831;">Disclaimer!  Always generate delivery reports before 48 hours are over since the lifetime for a delivery report is 48 hours  </p>
+
+  
+'
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: recipient
+          in: formData
+          description: with the receivers contact
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: with the authorization token access
+          required: true
+          type: string
+        - name: message
+          in: formData
+          description: with the users message
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Message not delivered
+        '404':
+          description: User not found
+  /messenger: 
+  /messenger/outbox/?message_status:
+    get:
+      tags:
+        - messenger
+      summary: Gets a list of messages
+      description: 'The OAuth access token expires after an , after which, you will need to generate another access token. On a production app, use a base64 library of the programming language you are using to build your app to get the Basic Auth string that you will then use to invoke our OAuth API to get an access token
+      
+        <h3 style="font-size:120%;">HTTP Header Parameters</h3> <hr>.<br>
+     With an OAuth 2.0 Access Token, an application can now invoke our APIs by including the access token in the HTTP header. Our API currently  supports application/json content type.The token is generated after you send a message.<br><h3 style="font-size:120%;"> HTTP header Parameters</h3> <hr>
+   Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr> 
+   Authorization <span style="display:inline-block; width: 25%;"></span> Set to  Only bearer < access token>.<br>
+     '
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: 'The name that needs to be fetched. Use user1 for testing. '
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+  /loans:
+  '/products/applied_loans/':
+    get:
+      tags:
+        - loan
+      summary: Lists  loans applied
+      description: 'This lists the loans that have been applied  <br>
+   With an OAuth 2.0 Access Token, an application can now invoke our API by including the access token in the HTTP header. Our API currently  supports application/json content type.<br> 
+   <h3 style="font-size:120%;"> HTTP header Parameters</h3> <hr>
+   Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr> 
+   Authorization <span style="display:inline-block; width: 25%;"></span> Set to  Only bearer < access token>.<br>'
+      operationId: loginUser
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: 'The authorization that allows for authentication . '
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+         
+        '400':
+          description: Invalid username/password supplied
+          
+    '/products/loans/':
+    post:
+      tags:
+        - product
+      summary: Apply loan
+      description: ' This is a simple API for  loan application. To authorize your API call to the OAuth API, you will need a Basic Auth over HTTPS authorization token. <h3 style="font-size:120%;"> HTTP header Parameters</h3> <hr>
+Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr>  
+    Authorization <span style="display:inline-block; width: 25%;"></span> Set to  Only bearer < access token>.<br>
+    Content-Type <span style="display:inline-block; width: 25%;"></span>  Only application/json
+  content type is supported.<br>
+  <h3 style="font-size:120%;"> HTTP POST Parameters</h3> <hr>
+   Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr> 
+  Member <span style="display:inline-block; width: 25%;"></span> Select member who is borrowing a loan <br>
+  
+   Loan reference number <span style="display:inline-block; width: 10%;"></span> The number that uniquely identifies a loan <br>
+   
+  Loan type <span style="display:inline-block; width: 24%;"></span> Select the type of loan that a member is borrowing. <br>
+  
+  Loan purpose <span style="display:inline-block; width: 20%;"></span> Fill in why the member is borrowing a loan. <br>
+  
+ Amount <span style="display:inline-block; width: 26%;"></span> Enter the amount being borrowed. <br>
+ 
+No of repayments <span style="display:inline-block; width: 16%;"></span> Add the number of repayments for the loan being borrowed. <br>
+
+  Date of loan application <span style="display:inline-block; width: 10%;"></span> Add the date the loan was applied. <br>
+  
+ Grace period <span style="display:inline-block; width: 20%;"></span> An additional time given to a member to pay off their loan. <br>
+ 
+ Charge deductions <span style="display:inline-block; width: 13%;"></span> Select  whether you want that particular loan to attract charges. <br> 
+ 
+ Date of first repayment <span style="display:inline-block; width: 10%;"></span> Select the date for the first repayment. <br> 
+ 
+ Days before first repayment <span style="display:inline-block; width: 7%;"></span> Add the days before the first repayment. <br>
+ 
+ Interest rate<span style="display:inline-block; width: 25%;"></span>Add the interest rate charges. <br>  
+ 
+ Loan top-up <span style="display:inline-block; width: 20%;"></span>Select  list depending whether you want to a loan top up or not.<br>  
+  '
+   
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        
+        - name: Authorization 
+          in: header
+          description: 'The authorization that allows for authentication . '
+          required: true
+          type: string
+        - in: body
+          name: data
+          description: List of user object
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/loan'
+      responses:
+        default:
+          description: successful operation
+    
+  /product:
+  /products/repayment_schedule/?loan:
+    get:
+      tags:
+        - product
+      summary:  loan accounts
+      description: 'This lists the loan accounts  <br>
+      
+   With an OAuth 2.0 Access Token, an application can now invoke our API by including the access token in the HTTP header. Our API   supports application/json content type.<br> 
+   <h3 style="font-size:120%;"> HTTP header Parameters</h3> <hr>
+   Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr> 
+   Authorization <span style="display:inline-block; width: 25%;"></span> Set to  Only bearer < access token>.<br>'
+      operationId: loginUser
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: 'The authorization that allows for access. '
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+         
+        '400':
+          description: Invalid username/password supplied
+          
+  /products/loans/:
+    post:
+      tags:
+        - product
+      summary: Register loan product
+      description: 'This registers the loan product.<br>
+   <h3 style="font-size:120%;">HTTP Header Parameters</h3> <hr>.<br>
+   With an OAuth 2.0 Access Token, an application can now invoke our API by including the access token in the HTTP header. Our APIs currently only supports application/json content type.<br>
+    Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr>  
+    Authorization <span style="display:inline-block; width: 25%;"></span> Set to  Only bearer < access token>.<br>
+    Content-Type <span style="display:inline-block; width: 25%;"></span>  Only application/json '
+      operationId: loginUser
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: The user name for login
+          required: true
+          type: string
+        - in: body
+          name: data
+          description: List of user object
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+      responses:
+        '200':
+          description: successful operation
+          
+         
+  /products/loan_disbursement/:
+    post:
+      tags:
+        - product
+      summary: loan disbursement
+      description: 'This registers the loan product.<br>
+   <h3 style="font-size:120%;">HTTP Header Parameters</h3> <hr>.<br>
+   With an OAuth 2.0 Access Token, an application can now invoke our API by including the access token in the HTTP header. Our APIs currently only supports application/json content type.<br>
+    Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr>  
+    Authorization <span style="display:inline-block; width: 25%;"></span> Set to  Only bearer < access token>.<br>
+    Content-Type <span style="display:inline-block; width: 25%;"></span>  Only application/json
+  <h3 style="font-size:120%;"> HTTP POST Parameters</h3> <hr>
+   Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr> 
+  Member <span style="display:inline-block; width: 30%;"></span> A member whose loan is being disbursed .<br>
+  
+  Disbursement_amount  <span style="display:inline-block; width: 15%;"></span> The amount being disbursed .<br>
+   
+  Loan  <span style="display:inline-block; width: 30%;"></span> loan that is being disbursed. <br>
+  
+  Bank <span style="display:inline-block; width: 30%;"></span> The bank that money will be disbursed to. <br>
+  
+ Disbursement_date <span style="display:inline-block; width: 18%;"></span> date when the money will be dibursed. <br>
+ 
+ Currency <span style="display:inline-block; width: 25%;"></span> Select currency in which the loan will be disbursed. <br>
+
+  Payment_type  <span style="display:inline-block; width: 20%;"></span> Add the payment mode in which the loan will be disbursed. <br>
+  
+ Receipt_no  <span style="display:inline-block; width: 25%;"></span>the receipt number of the loan. <br>
+ 
+ Deduct charges from disbursement amount  <span style="display:inline-block; width: 10%;"></span> This will attract charges from disbursed amount. <br> 
+ 
+ Charges  <span style="display:inline-block; width: 30%;"></span> the charges to be deducted from the. <br>  '
+
+      consumes:
+        - application/x-www-form-urlencoded
+      
+      
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: The authorization access token
+          required: true
+          type: string
+        - name: member
+          in: formData
+          description: A member whose loan is being disbursed
+          required: true
+          type: string
+        - name: disbursement_amount
+          in: formData
+          description: The amount being disbursed
+          required: true
+          type: string
+        - name: loan
+          in: formData
+          description: loan that is being disbursed
+          required: false
+          type: string
+        - name: bank
+          in: formData
+          description: the bank that money will be disbursed to
+          required: true
+          type: string  
+          
+        - name: disbursement_date
+          in: formData
+          description: date when the money will be dibursed
+          required: true
+          type: string 
+        - name: currency
+          in: formData
+          description: the currency used
+          required: true
+          type: string  
+          
+        - name: payment_type
+          in: formData
+          description: the payment mode for this transaction
+          required: true
+          type: string 
+            
+        - name: receipt_no
+          in: formData
+          description: the receipt number of the loan
+          required: true
+          type: string   
+          
+        - name: deduct_charges_from_disbursement_amount
+          in: formData
+          description: This will attract charges from disbursed amount
+          required: true
+          type: string   
+          
+        - name: charges
+          in: formData
+          description: the charges to be deducted from the 
+          required: true
+          type: string 
+          
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+          
+        '400':
+          description: Invalid username/password supplied 
+          
+  /products/applied_loans/{id}/:
+    patch:
+      tags:
+        - product
+      summary: Approve loans
+      description: 'This API is used to make approval call for loans.<br> .<h3 style="font-size:120%;">HTTP Header Parameters</h3> <hr><br>Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr>  
+    Authorization <span style="display:inline-block; width: 25%;"></span> Set to  Only bearer < access token>.<br>
+    Content-Type <span style="display:inline-block; width: 25%;"></span>  Only application/json <h3 style="font-size:120%;"> HTTP POST Parameters</h3> <hr>
+   Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr> 
+  Id <span style="display:inline-block; width: 30%;"></span> The Id of the loan .<br> '
+
+      
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: The user name for login
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: The user name for login
+          required: true
+          type: string
+        
+        
+        
+       
+      responses:
+        default:
+          description: successful operation        
+          
+  /products/repayment_schedule/:
+    post:
+      tags:
+        - product
+      summary: process loan
+      description: 'This API is used to process loans<br><h3 style="font-size:120%;">HTTP Header Parameters</h3> <hr><br>Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr>  
+    Authorization <span style="display:inline-block; width: 25%;"></span> Set to  Only bearer < access token>.<br>
+    Content-Type <span style="display:inline-block; width: 25%;"></span>  Only application/json <h3 style="font-size:120%;"> HTTP POST Parameters</h3> <hr>
+   Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr> 
+  Loan <span style="display:inline-block; width: 30%;"></span>Fill the loan being processed.<br>'
+
+      consumes:
+        - application/x-www-form-urlencoded
+      
+      
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: The user name for login
+          required: true
+          type: string
+        - name: loan
+          in: formData
+          description: Field to add username
+          required: true
+          type: string
+          
+      responses:
+        default:
+          description: successful operation
+          
+  /products/applied_loans/{id}/':
+    patch:
+      tags:
+        - product
+      summary: Reverse loan
+      description: 'Reverse loan API makes reversal calls.<h3 style="font-size:120%;">HTTP Header Parameters</h3> <hr><br>Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr>  
+    Authorization <span style="display:inline-block; width: 25%;"></span> Set to  Only bearer < access token>.<br>
+    Content-Type <span style="display:inline-block; width: 25%;"></span>  Only application/json <h3 style="font-size:120%;"> HTTP POST Parameters</h3> <hr> Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr> 
+  Id <span style="display:inline-block; width: 30%;"></span>Fill the loan Id to be reversed.<br>'
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: The user name for login
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: The user name for login
+          required: true
+          type: string  
+          
+       
+      responses:
+        default:
+          description: successful operation    
+  /products/loan_guarantors/:
+    post:
+      tags:
+        - product
+      summary: loan guarantors
+      description: 'Loan guarantors API adds a guarantor.<br>
+      With an OAuth 2.0 Access Token, an application can now invoke our APIs by including the access token in the HTTP header. It also supports application/json as content type 
+      <h3 style="font-size:120%;">HTTP Header Parameters</h3> <hr><br>Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr>  
+    Authorization <span style="display:inline-block; width: 25%;"></span> Set to  Only bearer < access token>.<br>
+    Content-Type <span style="display:inline-block; width: 25%;"></span>  Only application/json <h3 style="font-size:120%;"> HTTP POST Parameters</h3> <hr> Parameters <span style="display:inline-block; width: 30%;"></span>  Description <hr> <br>
+  Member type <span style="display:inline-block; width: 30%;"></span>A guarantor can be a member, non-member or Group<br>
+
+  Member <span style="display:inline-block; width: 35%;"></span>The name of the member to guarantee the loan<br>
+  
+  collateral_or_savings <span style="display:inline-block; width: 20%;"></span>Set to whether the guarantor is using their savings or collateral<br>
+  
+  savings_amount <span style="display:inline-block; width: 25%;"></span>Add the amount that this guarantor has in terms of savings<br>
+  
+  loan <span style="display:inline-block; width: 35%;"></span>Set which loan this individual will guarantee<br>
+  
+  member_id <span style="display:inline-block; width: 30%;"></span>Set to the member id <br>
+  '
+  
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+      
+        - name: Authorization
+          in: header
+          description: with the authorization token access
+          required: true
+          type: string
+        - in: body
+          name: data
+          description: List of user object
+          required: true
+          schema:
+            
+            items:
+              $ref: '#/definitions/Guarantors'
+      responses:
+        default:
+          description: successful operation 
+          
+  /registration/collateral_registration/:
+    post:
+      tags:
+      - product
+      summary: Register collateral
+      description: ''
+      
+      produces:
+      - application/xml
+      - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          description: The authorization access token
+          required: true
+          type: string
+      
+      
+        - in: body
+          name: data
+          description: List of user object
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Collateral'
+      responses:
+        default:
+          description: successful operation 
+          
+  /product/loan_charge/:
+    post:
+      tags:
+        - product
+      summary: Creates list of users with given input array
+      description: ''
+      
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+      
+        - name: Authorization
+          in: header
+          description: The authorization access token
+          required: true
+          type: string
+        - in: body
+          name: data
+          description: List of user object
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Charges'
+      responses:
+        default:
+          description: successful operation
+  /products/formulas/:
+    post:
+      tags:
+        - product
+      summary: formulas
+      description: ''
+      
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+      
+        - name: Authorization
+          in: header
+          description: The authorization access token
+          required: true
+          type: string
+        - in: body
+          name: data
+          description: List of user object
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Formulas'
+      responses:
+        default:
+          description: successful operation
+          
+  /registration/members/:
+    post:
+      tags:
+        - Registration
+      summary: Member registration
+      description: ''
+      
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+      
+        - name: Authorization
+          in: header
+          description: The authorization access token
+          required: true
+          type: string
+        - in: body
+          name: data
+          description: List of user object
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Registration'
+      responses:
+        default:
+          description: successful operation
+  /registration/member_bank/:
+    post:
+      tags:
+        - Registration
+      summary: Member bank details
+      description: ''
+      
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+      
+        - name: Authorization
+          in: header
+          description: The authorization access token
+          required: true
+          type: string
+        - in: body
+          name: data
+          description: List of user object
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Bank'
+      responses:
+        default:
+          description: successful operation
+  /registration/next_of_kin/:
+    post:
+      tags:
+        - Registration
+      summary: Next of kin
+      description: ''
+      
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+      
+        - name: Authorization
+          in: header
+          description: The authorization access token
+          required: true
+          type: string
+        - in: body
+          name: data
+          description: List of user object
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Next_of_kin'
+      responses:
+        default:
+          description: successful operation                 
+  /registration/member_group/:
+    post:
+      tags:
+        - Registration
+      summary: Member group registration
+      description: ''
+      
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+      
+        - name: Authorization
+          in: header
+          description: The authorization access token
+          required: true
+          type: string
+        - in: body
+          name: data
+          description: List of user object
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Member_group'
+      responses:
+        default:
+          description: successful operation                  
+          
+          
+definitions:
+  
+  loan:
+    type: object
+    properties:
+      member:
+        type: string
+      loan_reference_no:
+        type: string
+      loan_type:
+        type: string
+      amount:
+        type: integer
+      loan_purpose:
+        type: string
+      no_of_repayments:
+        type: integer
+      Grace period:
+        type: integer  
+      date_of_loan_application:
+        type: string
+      days_before_first_repayment:
+        type: string
+      interest rate:
+        type: integer
+      repaid_on:
+        type: string
+      charges:
+        type: string
+      date_of_first_repayment:
+        type: string
+      loan_top_up:
+        type: string
+     
+    xml:
+      name: loan
+  Product:
+    type: object
+    properties:
+      product_name:
+        type: string
+      short_name:
+        type: string
+      description:
+        type: string
+      product_type:
+        type: integer
+      target_group:
+        type: string
+      mode_of_payment:
+        type: string
+      estimated_appraisal_period:
+        type: string  
+      start_date:
+        type: string
+      close_date:
+        type: string
+      loan_fund: 
+        type: string
+      status:
+        type: string
+      minimum_days_disbursement_repayment:
+        type: string
+      minimum_principal:
+        type: string
+      maximum_principal:
+        type: integer
+      minimum_repayments:
+        type: string
+      maximum_repayments:
+        type: integer
+      minimum_interest_rate:
+        type: integer  
+      maximum_interest_rate:
+        type: string
+      default_interest_rate:
+        type: string
+      interest_charged_per:
+        type: integer
+      repaid_every:
+        type: string
+      repayment_interval:
+        type: string
+      interest_method:
+        type: integer
+      days_overdue_before_arreas:
+        type: string
+      days_overdue_before_npa:
+        type: string
+      minimum_guarantors:
+        type: string
+      maximum_guarantors:
+        type: integer
+      place_guarantor_funds_hold:
+        type: string
+      enable_multiple_disbursals:
+        type: integer
+      amortization:
+        type: integer  
+      gl_account:
+        type: string
+      interest_account:
+        type: string
+      overpayment_account:
+        type: integer
+       
+      losses_from_write_off:
+        type: string
+      loan_approvals:
+        type: integer
+      allowed_loan_approvals:
+        type: string
+      is_group_loan:
+        type: string
+      recalculate_loan_advance_payment:
+        type: string
+      realtime_interest:
+        type: integer
+      realtime_penalties:
+        type: string
+      publish_to_marketplace:
+        type: integer
+      total_interest_calculation_method:
+        type: integer  
+      calculate_repayment_ability_from_salary:
+        type: string
+      no_of_decimal_places:
+        type: string
+      disbursement_mode:
+        type: integer  
+      instant_disbursement:
+        type: string
+      members_only:
+        type: integer
+      maximum_number_of_concurrent_loans:
+        type: string
+      default_repayment_product:
+        type: integer
+      recalculate_loan_on_repayment:
+        type: integer  
+      interest_posting_method:
+        type: string
+      
+    xml: 
+       name: Product
+        
+  Guarantors:
+    type: object
+    properties:
+      member_type:
+        type: string
+      member:
+        type: string
+      collateral_or_savings:
+        type: string
+      savings_amount:
+        type: integer 
+        
+      loan:
+        type: string
+      member_id[]:
+        type: string
+     
+    xml:
+      name: Guarantors 
+      
+  Collateral:
+    type: object
+    properties:
+      member_type:  
+        type: string
+      member:
+        type: string
+      description:
+        type: string
+      collateral_id_no:
+        type: integer 
+      value:
+        type: string
+      status:
+        type: string
+      collateral_type:
+        type: string
+      comment:
+        type: string
+     
+    xml:
+      name: Collateral    
+      
+  Charges:
+    type: object
+    properties:
+      name:  
+        type: string
+      charge_time_type:
+        type: string
+      charge_calculation:
+        type: string
+      formula:
+        type: integer 
+      calculation_amount_from:
+        type: string
+      calculation_amount_to:
+        type: string
+      amount:
+        type: string
+      gl_account:
+        type: string
+      use_as:
+        type: string
+      status:
+        type: string
+     
+    xml:
+      name: Charges    
+      
+  Formulas:
+    type: object
+    properties:
+      name:  
+        type: string
+      formula_array:
+        type: string
+      
+     
+    xml:
+      name: Formulas      
+  Registration:
+    type: object
+    properties:
+      first_name:
+        type: string
+      middle_name:
+        type: string
+      last_name:
+        type: string
+      date_of_birth:
+        type: string
+      
+      id_no:
+        type: string
+      
+      cro:
+        type: string
+      
+      member_no:
+        type: string
+      country:
+        type: string
+      
+      
+      registration_date:
+        type: string
+      
+      status:
+        type: string  
+      gender:
+        type: string
+      
+      mobile_no:
+        type: string
+      member_type:
+        type: string
+    xml: 
+       name: Registration
+       
+  Bank:
+    type: object
+    properties:
+      member:
+        type: string
+      bank:
+        type: string
+      branch:
+        type: string
+      branch_name:
+        type: string
+      
+      account_type:
+        type: string
+      
+      account_number:
+        type: string
+      
+    xml: 
+       name: Bank        
+  Next_of_kin:
+    type: object
+    properties:
+      member:
+        type: string
+      first_name:
+        type: string
+      middle_name:
+        type: string
+      last_name:
+        type: string
+      relationship:
+        type: string
+      percentage:
+        type: string
+      date_of_birth:
+        type: string
+      id_no:
+        type: string  
+      comment:
+        type: string    
+        
+    xml: 
+       name: Next_of_kin     
+  Member_group:
+    type: object
+    properties:
+      member:
+        type: string
+      group_name:
+        type: string
+      is_member_signatory:
+        type: string
+
+        
+    xml: 
+       name: Member_group         
+      
+externalDocs:
+  description: Find out more about Swagger
+  url: "http://swagger.io"
